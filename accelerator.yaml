@@ -95,7 +95,8 @@ accelerator:
     description: The type of plugin to wrap
     label: Type Of Backend Plugin
 engine: 
-  merge:
+  type: Merge
+  sources:
     - exclude:
         - "**"
     - condition: "#scope == 'base'"
