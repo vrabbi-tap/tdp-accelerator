@@ -1,0 +1,119 @@
+accelerator:
+  displayName: TDP Plugin Development
+  description: Skafolds the base structure and boilerplate for creating wrapper plugins for TDP
+  iconUrl: https://images.freecreatives.com/wp-content/uploads/2015/05/smiley-559124_640.jpg
+  tags:
+  - tanzu
+  - backstage
+  - node
+  - typescript
+  - custom
+  - getting-started
+  options:
+  - name: scope
+    inputType: select
+    choices:
+      - text: Initial Skaffolding
+        value: base
+      - text: Additional Wrapper Plugin
+        value: plugin
+    defaultValue: base
+    required: true
+    description: What do you want to generate?
+    label: What To Generate
+  - name: npmjsAccount
+    inputType: text
+    label: NPM.JS Account for use as prefix of packages to push
+    dataType: string
+    defaultValue: "vrabbi"
+    required: true
+    dependsOn:
+      name: scope
+      value: plugin
+  - name: sourcePluginName
+    label: Source Plugin To Wrap
+    inputType: text
+    dataType: string
+    required: true
+    dependsOn:
+      name: scope
+      value: plugin
+    defaultValue: "@backstage/plugin-github-actions"
+    description: The source plugin you want to wrap into a TDP plugin
+  - name: sourcePluginVersion
+    dataType: string
+    inputType: text
+    label: Source Plugins Version
+    description: The source plugin you want to wraps version
+    defaultValue: "0.6.6"
+    required: true
+    dependsOn:
+      name: scope
+      value: plugin
+  - name: pluginType
+    dependsOn: 
+      name: scope
+      value: plugin
+    inputType: select
+    choices:
+      - text: Frontend
+        value: frontend
+      - text: Backend
+        value: backend
+    required: true
+    dataType: string
+    description: Is this a frontend or backend plugin?
+    label: Plugin Type
+  - name: frontendSurfaceType
+    dependsOn:
+      name: pluginType
+      value: frontend
+    inputType: select
+    choices:
+      - text: New High Level Page Accessible From The Sidebar
+        value: newPage
+      - text: New Tab On Component Page
+        value: newTab
+      - text: New Section On Component Overview Tab
+        value: newWidget
+    dataType: string
+    required: true
+    description: The way your plugin will be exposed in the portal
+    label: How To Visualize The Plugins Content
+  - name: backendSurfaceType
+    dependsOn:
+      name: pluginType
+      value: backend
+    inputType: select
+    choices:
+      - text: New Backend Router
+        value: newRouter
+      - text: New Catalog Processor
+        value: newProcessor
+    dataType: string
+    required: true
+    description: The type of plugin to wrap
+    label: Type Of Backend Plugin
+engine: 
+  merge:
+    - exclude:
+        - "**"
+    - condition: "#scope == 'base'"
+      include:
+        - "base-structure/**"
+    - condition: "#pluginType == 'backend' && #backendSurfaceType == 'newRouter'"
+      include:
+        - "new-router/**"
+    - condition: "#pluginType == 'backend' && #backendSurfaceType == 'newProcessor'"
+      include:
+        - "new-processor/**"
+    - condition: "#pluginType == 'frontend' && #frontendSurfaceType == 'newPage'"
+      include:
+        - "new-page/**"
+    - condition: "#pluginType == 'frontend' && #frontendSurfaceType == 'newTab'"
+      include:
+        - "new-tab/**"
+    - condition: "#pluginType == 'frontend' && #frontendSurfaceType == 'new'"
+      include:
+        - "new-widget/**"
+      
