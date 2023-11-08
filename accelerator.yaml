@@ -97,8 +97,6 @@ accelerator:
 engine: 
   type: Merge
   sources:
-    - include:
-        - "**"
     - condition: "#scope != 'base'"
       exclude:
         - "base-structure/**"
