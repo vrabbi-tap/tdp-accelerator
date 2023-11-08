@@ -97,22 +97,24 @@ accelerator:
 engine: 
   type: Merge
   sources:
-    - condition: "#scope == 'base'"
-      include:
+    - include:
+        - "**"
+    - condition: "#scope != 'base'"
+      exclude:
         - "base-structure/**"
-    - condition: "#pluginType == 'backend' && #backendSurfaceType == 'newRouter'"
-      include:
+    - condition: "#backendSurfaceType != 'newRouter'"
+      exclude:
         - "new-router/**"
-    - condition: "#pluginType == 'backend' && #backendSurfaceType == 'newProcessor'"
-      include:
+    - condition: "#backendSurfaceType != 'newProcessor'"
+      exclude:
         - "new-processor/**"
-    - condition: "#pluginType == 'frontend' && #frontendSurfaceType == 'newPage'"
-      include:
+    - condition: "#frontendSurfaceType != 'newPage'"
+      exclude:
         - "new-page/**"
-    - condition: "#pluginType == 'frontend' && #frontendSurfaceType == 'newTab'"
-      include:
+    - condition: "#frontendSurfaceType != 'newTab'"
+      exclude:
         - "new-tab/**"
-    - condition: "#pluginType == 'frontend' && #frontendSurfaceType == 'new'"
-      include:
+    - condition: "#frontendSurfaceType != 'newWidget'"
+      exclude:
         - "new-widget/**"
       
